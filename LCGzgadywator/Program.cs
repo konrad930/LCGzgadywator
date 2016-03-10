@@ -34,8 +34,8 @@ namespace LCGzgadywator
                 for (var i = 1; i < input.Count - 2; i++)
                     dets.Add(CalcDet(i, i + 1, input));
 
-                var m = Gcd(dets.ToArray());
-                var f = Factors((int) max, (int) m);
+                var m = (int) Gcd(dets.ToArray());
+                var f = Factors((int) max, m);
 
                 m = f.FirstOrDefault(x => x >= max);
 
@@ -50,15 +50,16 @@ namespace LCGzgadywator
                         break;
                     }
                 }
-
-                for (var i = 0; i < m; i++)
+                for (var j = 0; j < m; j++)
                 {
-                    if (input[1]%m == (a*input[0] + i)%m)
+                    if ((input[1]%m == (a*input[0] + j)%m) ||
+                        (input[2]%m == (a*input[1] + j)%m))
                     {
-                        c = i;
+                        c = j;
                         break;
                     }
                 }
+
                 var result = (a*input.Last() + c)%m;
 
                 Console.WriteLine("Next : " + ms.Next() + " == " + result);
