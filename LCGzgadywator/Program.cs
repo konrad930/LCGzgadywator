@@ -39,26 +39,8 @@ namespace LCGzgadywator
 
                 m = f.FirstOrDefault(x => x >= max);
 
-                int a = 0, c = 0;
-
-                for (var i = 0; i < m; i++)
-                {
-                    if ((input[2] - input[1] == (input[1] - input[0])*i%m) ||
-                        (input[3] - input[2] == (input[2] - input[1])*i%m))
-                    {
-                        a = i;
-                        break;
-                    }
-                }
-                for (var j = 0; j < m; j++)
-                {
-                    if ((input[1]%m == (a*input[0] + j)%m) ||
-                        (input[2]%m == (a*input[1] + j)%m))
-                    {
-                        c = j;
-                        break;
-                    }
-                }
+                var a = calcA(input[0],input[1],input[2], m);
+                var c = Mod(input[2] - (a*input[1]),m);
 
                 var result = (a*input.Last() + c)%m;
 
@@ -92,13 +74,66 @@ namespace LCGzgadywator
                 if (b == 0) return a;
                 var a1 = a;
                 a = b;
-                b = a1%b;
+                b = Mod(a1,b);
             }
+        }
+
+        private static long Mod(long x, long m)
+        {
+            return (x % m + m) % m;
         }
 
         private static IEnumerable<int> Factors(int max, int n)
         {
             return Enumerable.Range(max, n).Where(x => n%x == 0).ToList();
+        }
+
+        static void ExtendedEuclid(long a, long b,out long d, out long x, out long y)
+        /* calculates a * *x + b * *y = gcd(a, b) = *d */
+        /* Author: Pate Williams (c) 1997 */
+        {
+            long q, r, x1, x2, y1, y2;
+            d = a;
+            x = 1;
+            y =0;
+
+            if (b == 0)
+            {
+                d = a; x = 1; y = 0;
+                return;
+            }
+            x2 = 1; x1 = 0; y2 = 0; y1 = 1;
+            while (b > 0)
+            {
+                q = a / b; r = a - q * b;
+                x = x2 - q * x1; y = y2 - q * y1;
+                a = b; b = r;
+                x2 = x1; x1 = x; y2 = y1; y1 = y;
+            }
+            Console.WriteLine(a + " " + x2 + " " + y2);
+
+            d = a; x = x2; y = y2;
+        }
+
+
+        public static  long calcA(long x0,long x1,long x2,long m)
+        {
+            List<long> result = new List<long>();
+
+            long d = 0,x=0,y=0;
+
+            var b = Mod(x2-x1, m);
+            var a = Mod(x1 - x0, m);
+
+            ExtendedEuclid(a, m,out d,out x,out y);
+
+            var t = x * Mod(b / d, m);
+
+            for(int i=0;i<= d; i++)
+            {
+                result.Add(Mod(t + (i * (m / d)), m));
+            }
+            return result.FirstOrDefault();
         }
 
         #endregion
