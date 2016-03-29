@@ -8,12 +8,12 @@ namespace LCGzgadywator
     {
         public static void Main()
         {
-            var ms = new Lcg(910955363);
+            var ms = new Lcg(54294923);
 
-            ms.Seq().Take(4).ToList().ForEach(Console.WriteLine);
+            ms.Seq().Take(5).ToList().ForEach(Console.WriteLine);
 
             var dets = new List<long>();
-            var input = new List<long> {910955363, 378365196, 368026102, 170059367, 516212983};
+            var input = ms.Seq().Take(10).ToList();
             var cycle = new List<long>();
             var max = input.Max();
             var agr = input.GroupBy(x => x);
@@ -39,7 +39,7 @@ namespace LCGzgadywator
 
                 m = f.FirstOrDefault(x => x >= max);
 
-                var a = calcA(input[0],input[1],input[2], m);
+                var a = CalcA(input[0],input[1],input[2], m);
                 var c = Mod(input[2] - (a*input[1]),m);
 
                 var result = (a*input.Last() + c)%m;
@@ -89,8 +89,6 @@ namespace LCGzgadywator
         }
 
         static void ExtendedEuclid(long a, long b,out long d, out long x, out long y)
-        /* calculates a * *x + b * *y = gcd(a, b) = *d */
-        /* Author: Pate Williams (c) 1997 */
         {
             long q, r, x1, x2, y1, y2;
             d = a;
@@ -116,7 +114,7 @@ namespace LCGzgadywator
         }
 
 
-        public static  long calcA(long x0,long x1,long x2,long m)
+        public static  long CalcA(long x0,long x1,long x2,long m)
         {
             List<long> result = new List<long>();
 
