@@ -62,7 +62,7 @@ namespace LCGzgadywator
 
                 var result = (a*input.Last() + c)%m;
 
-                Console.WriteLine("Next : " + ms.Next() + " == " + result);
+                Console.WriteLine("Next  : " + ms.Next() + " == " + result);
                 Console.WriteLine("M:" + m + " a: " + a + " c:" + c);
             }
             Console.ReadKey();
