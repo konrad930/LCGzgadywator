@@ -13,7 +13,7 @@ namespace LCGzgadywator
 
         public long Next()
         {
-            return _state = Mod(2*_state + 5, 295075153);
+            return _state = Mod(123*_state + 5555, 295075153);
         }
 
         public IEnumerable<long> Seq()

@@ -8,12 +8,13 @@ namespace LCGzgadywator
     {
         public static void Main()
         {
-            var ms = new Lcg(54294923);
+            var ms = new Lcg(910955363);
 
             ms.Seq().Take(5).ToList().ForEach(Console.WriteLine);
 
             var dets = new List<long>();
-            var input = ms.Seq().Take(10).ToList();
+            var input = new List<long> { 910955363, 378365196, 368026102, 170059367, 516212983 };
+
             var cycle = new List<long>();
             var max = input.Max();
             var agr = input.GroupBy(x => x);
@@ -124,14 +125,17 @@ namespace LCGzgadywator
             var a = Mod(x1 - x0, m);
 
             ExtendedEuclid(a, m,out d,out x,out y);
-
-            var t = x * Mod(b / d, m);
-
-            for(int i=0;i<= d; i++)
+            if (b % d == 0)
             {
-                result.Add(Mod(t + (i * (m / d)), m));
+                var t = x * Mod(b / d, m);
+
+                for (int i = 0; i <= d; i++)
+                    result.Add(Mod(t + (i * (m / d)), m));
+
+                return result.FirstOrDefault();
             }
-            return result.FirstOrDefault();
+            else
+                throw new Exception("Nie ma rozwiązania");
         }
 
         #endregion
